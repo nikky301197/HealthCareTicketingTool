@@ -12,5 +12,7 @@ public interface PatientService {
 	TicketDTO createTicketByPatient(TicketDTO ticketDTO);
 
 	List<TicketCategoryDTO> fecthAllTicketCategories();
+
+	void deleteTicketById(Long id);
     
 }

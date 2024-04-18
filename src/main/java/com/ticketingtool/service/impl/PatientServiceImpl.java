@@ -72,4 +72,12 @@ public class PatientServiceImpl implements PatientService {
 
 	}
 
+	@Override
+	public void deleteTicketById(Long id) {
+
+		ticketrepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Ticket with id " + id + " not found."));
+		ticketrepo.deleteById(id);
+	}
+
 }

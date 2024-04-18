@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +38,15 @@ public class PatientController {
 	}
 
 	@GetMapping("/")
-	ResponseEntity<List<TicketCategoryDTO>> fecthAllTicketCategories() {
+	public ResponseEntity<List<TicketCategoryDTO>> fecthAllTicketCategories() {
 		List<TicketCategoryDTO> listcatdto = patientService.fecthAllTicketCategories();
 		return new ResponseEntity<List<TicketCategoryDTO>>(listcatdto, HttpStatus.OK);
+	}
+	
+	@GetMapping("/tickets/{id}")
+	public String deleteTicketById(@PathVariable Long id ) {
+		patientService.deleteTicketById(id);
+		return "Ticket deleted successfully";
 	}
 
 }
