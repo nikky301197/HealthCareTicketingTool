@@ -60,7 +60,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public List<TicketCategoryDTO> fecthAllTicketCategories() {
+	public List<TicketCategoryDTO> fetchAllTicketCategories() {
 		Optional<List<TicketCategory>> ticketCatListOpt = Optional.ofNullable(catrepo.findAll());
 
 		List<TicketCategoryDTO> ticketCatDTOList = ticketCatListOpt
@@ -78,6 +78,18 @@ public class PatientServiceImpl implements PatientService {
 		ticketrepo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Ticket with id " + id + " not found."));
 		ticketrepo.deleteById(id);
+	}
+
+	@Override
+	public List<TicketDTO> fetchAllTickets() {
+		Optional<List<Ticket>> ticketlistoptional = Optional.ofNullable(ticketrepo.findAll());
+
+		List<TicketDTO> ticketdtolist = ticketlistoptional
+				.map(ticketlist -> ticketlist.stream().map(ticket -> modelmap.map(ticket, TicketDTO.class))
+						.collect(Collectors.toList()))
+				.orElseThrow(() -> new ResourceNotFoundException("No Ticket Found!"));
+
+		return ticketdtolist;
 	}
 
 }

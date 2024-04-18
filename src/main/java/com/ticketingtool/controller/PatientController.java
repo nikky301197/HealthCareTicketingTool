@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,16 +38,23 @@ public class PatientController {
 		return "welcome";
 	}
 
-	@GetMapping("/")
-	public ResponseEntity<List<TicketCategoryDTO>> fecthAllTicketCategories() {
-		List<TicketCategoryDTO> listcatdto = patientService.fecthAllTicketCategories();
+	@GetMapping("/ticket-categories")
+	public ResponseEntity<List<TicketCategoryDTO>> fetchAllTicketCategories() {
+		List<TicketCategoryDTO> listcatdto = patientService.fetchAllTicketCategories();
 		return new ResponseEntity<List<TicketCategoryDTO>>(listcatdto, HttpStatus.OK);
 	}
 	
-	@GetMapping("/tickets/{id}")
-	public String deleteTicketById(@PathVariable Long id ) {
+	@GetMapping("/tickets")
+	public ResponseEntity<List<TicketDTO>> fetchAllTicket() {
+		List<TicketDTO> listticketdto = patientService.fetchAllTickets();
+		return new ResponseEntity<List<TicketDTO>>(listticketdto, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/tickets/{id}")
+	public String deleteTicketById(@PathVariable Long id) {
 		patientService.deleteTicketById(id);
 		return "Ticket deleted successfully";
 	}
 
+	
 }

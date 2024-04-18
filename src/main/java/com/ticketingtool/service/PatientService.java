@@ -11,8 +11,10 @@ import com.ticketingtool.dto.TicketDTO;
 public interface PatientService {
 	TicketDTO createTicketByPatient(TicketDTO ticketDTO);
 
-	List<TicketCategoryDTO> fecthAllTicketCategories();
+	List<TicketCategoryDTO> fetchAllTicketCategories();
 
 	void deleteTicketById(Long id);
+
+	List<TicketDTO> fetchAllTickets();
     
 }
