@@ -1,11 +1,15 @@
 package com.ticketingtool.service.impl;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ticketingtool.dto.TicketCategoryDTO;
 import com.ticketingtool.dto.TicketDTO;
 import com.ticketingtool.entity.Ticket;
 import com.ticketingtool.entity.TicketCategory;
@@ -37,12 +41,10 @@ public class PatientServiceImpl implements PatientService {
 		String emailId = ticketDTO.getUser().getEmailId();
 
 		TicketCategory categoryObj = catrepo.findById(categoryId)
-				.orElseThrow(()->
-				new ResourceNotFoundException("Category with id " + categoryId + " not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Category with id " + categoryId + " not found"));
 
 		User userobj = userrepo.findById(emailId)
-				.orElseThrow(()->
-				new ResourceNotFoundException("User with email id " + emailId + " not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("User with email id " + emailId + " not found"));
 
 		Ticket ticket = modelmap.map(ticketDTO, Ticket.class);
 		ticket.setCategory(categoryObj);
@@ -55,6 +57,19 @@ public class PatientServiceImpl implements PatientService {
 		TicketDTO ticketdtoobj = modelmap.map(savedTicket, TicketDTO.class);
 
 		return ticketdtoobj;
+	}
+
+	@Override
+	public List<TicketCategoryDTO> fecthAllTicketCategories() {
+		Optional<List<TicketCategory>> ticketCatListOpt = Optional.ofNullable(catrepo.findAll());
+
+		List<TicketCategoryDTO> ticketCatDTOList = ticketCatListOpt
+				.map(ticketCatList -> ticketCatList.stream().map(cat -> modelmap.map(cat, TicketCategoryDTO.class))
+						.collect(Collectors.toList()))
+				.orElseThrow(() -> new ResourceNotFoundException("No Category Found!"));
+
+		return ticketCatDTOList;
+
 	}
 
 }
