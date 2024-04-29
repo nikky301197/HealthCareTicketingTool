@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,16 +57,36 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
-//	@ExceptionHandler(BadCredentialsException.class)
-//	public String handlingBadCredentialsException(BadCredentialsException ex) {
-//
-//		ErrorResponse err = new ErrorResponse();
-//		err.setMessage(ex.getMessage());
-//		err.setError(ex.getClass().getSimpleName());
-//		err.setHttpStatus(HttpStatus.BAD_REQUEST);
-//		err.setTimestamp(new Date());
-//
-//		return "Credentials Invalid !!";
-//	}
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ErrorResponse> handlingBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+
+		ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+				HttpStatus.BAD_REQUEST.getReasonPhrase(), "Credentials Invalid !", request.getDescription(false));
+
+		
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ResourceAlreadyExistException.class)
+	public ResponseEntity<ErrorResponse> handleResourceAlreadyExistException(ResourceAlreadyExistException ex,
+			WebRequest request) {
+
+		ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), HttpStatus.CONFLICT.value(),
+				HttpStatus.CONFLICT.getReasonPhrase(), ex.getMessage(), request.getDescription(false));
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
+
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex,
+			WebRequest request) {
+
+		ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), HttpStatus.CONFLICT.value(),
+				HttpStatus.CONFLICT.getReasonPhrase(), ex.getMessage(), request.getDescription(false));
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
 
 }

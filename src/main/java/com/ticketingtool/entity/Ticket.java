@@ -2,6 +2,10 @@ package com.ticketingtool.entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +46,7 @@ public class Ticket {
 	private String status;
 
 	@Column(name = "assined_to")
+	@Value(value =  "mediplus-support@gmail.com")
 	private String assinedTo;
 
 	@Column(name = "created_at")
