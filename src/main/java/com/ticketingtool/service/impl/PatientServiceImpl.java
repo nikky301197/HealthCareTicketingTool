@@ -120,12 +120,16 @@ public class PatientServiceImpl implements PatientService {
 		if (checkPatientExistence) {
 			throw new ResourceAlreadyExistException("Patient with email id " + user.getEmailId() + " already exist !");
 		}
+		logger.info(userdto.toString());
+		logger.info(userdto.getPassword());
 		user.setPassword(passwordencoder.encode(userdto.getPassword()));
-
+        
 		Role role = rolerepo.findByRoleName(ROLE_NAME)
 				.orElseThrow(() -> new ResourceNotFoundException("Role with " + ROLE_NAME + " not found!"));
+		
 		Set<Role> rolelist = new HashSet<>();
 		rolelist.add(role);
+		logger.info(rolelist.toString());
 		user.setRoles(rolelist);
 		User saveduser = userrepo.save(user);
 		UserDTO dto = modelmap.map(saveduser, UserDTO.class);

@@ -63,11 +63,11 @@ public class SecurityConfiguration {
 			customizer.requestMatchers(HttpMethod.POST, "/health_care_system/api/v1/patient/{emailId}")
 					.hasAnyAuthority("ROLE_PATIENT");
 			customizer.requestMatchers(HttpMethod.GET, "/health_care_system/api/v1/patient/tickets/users/{emailId}")
-			.hasAnyAuthority("ROLE_PATIENT");
+					.hasAnyAuthority("ROLE_PATIENT");
 			customizer.requestMatchers(HttpMethod.GET, "/health_care_system/api/v1/patient/{emailId}/ticket/{ticketId}")
-			.hasAnyAuthority("ROLE_PATIENT");
+					.hasAnyAuthority("ROLE_PATIENT");
 			customizer.requestMatchers(HttpMethod.DELETE, "/health_care_system/api/v1/patient/ticket/{id}")
-			.hasAnyAuthority("ROLE_PATIENT");
+					.hasAnyAuthority("ROLE_PATIENT");
 			customizer.requestMatchers(HttpMethod.GET, "/health_care_system/api/v1/patient/welcome").permitAll();
 
 			customizer.requestMatchers(HttpMethod.POST, "/health_care_system/api/v1/login").permitAll();

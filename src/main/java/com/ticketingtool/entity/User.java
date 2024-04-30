@@ -42,7 +42,7 @@ public class User implements UserDetails {
 	@Column(name = "email_id")
 	private String emailId;
 
-	@JsonIgnoreProperties
+	
 	@NotBlank(message = "Password cannot be blank")
 	@Size(min = 8, message = "Password must be at least 8 characters long")
 	@Column(name = "password")

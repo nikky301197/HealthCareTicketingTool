@@ -19,19 +19,16 @@ public class HealthCareTicketingToolApplication {
 	ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	
+
 	@Bean
-	public WebMvcConfigurer corsConfigure()
-	{
+	public WebMvcConfigurer corsConfigure() {
 		return new WebMvcConfigurer() {
-			public  void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-				.allowedMethods("*")
-				.allowedOrigins("http://localhost:3000");
-				
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:3000");
+
 			}
 		};
-		
+
 	}
 
 }
